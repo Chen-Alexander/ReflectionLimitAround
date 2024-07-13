@@ -9,9 +9,11 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.MessageQueue;
 import android.util.Log;
+import android.view.Choreographer;
 import android.widget.TextView;
 
 import com.alexander.reflectlimitaround.databinding.ActivityMainBinding;
+import com.alexander.reflectlimitaround.util.ReflectUtils;
 
 import java.lang.reflect.Method;
 
@@ -79,9 +81,14 @@ public class MainActivity extends AppCompatActivity {
 //            handler.sendEmptyMessage(0);
 
             // JNI破坏调用栈，使VM无法识别调用栈，进而无法识别调用方来达成目的()
-            MessageQueue queue = Looper.getMainLooper().getQueue();
-            Class clazz = Class.class;
-            Method method = getDeclaredMethod(clazz, "hasMessages", new Class[]{Handler.class, Runnable.class, Object.class});
+            setHiddenApiExemptionsNative();
+            Choreographer choreographer = Choreographer.getInstance();
+            Object frameIntervalNanos = ReflectUtils.reflectObject(
+                    choreographer, "mFrameIntervalNanos",
+                    166666667L
+            );
+            Object vsyncReceiver = ReflectUtils.reflectObject(choreographer, "mDisplayEventReceiver", null);
+            Object callbackQueueLock = ReflectUtils.reflectObject(choreographer, "mLock", null);
             Log.e("MainActivity", "执行");
         } catch (Exception e) {
              e.printStackTrace();
