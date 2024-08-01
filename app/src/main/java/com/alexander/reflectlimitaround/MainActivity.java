@@ -1,21 +1,14 @@
 package com.alexander.reflectlimitaround;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.os.MessageQueue;
 import android.util.Log;
 import android.view.Choreographer;
-import android.widget.TextView;
 
 import com.alexander.reflectlimitaround.databinding.ActivityMainBinding;
 import com.alexander.reflectlimitaround.util.ReflectUtils;
 
-import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity {
 
